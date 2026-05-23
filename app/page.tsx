@@ -610,20 +610,40 @@ export default function LandingPage() {
   const [emailError, setEmailError] = useState('');
   const [popupCopied, setPopupCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [totalCount, setTotalCount] = useState<number | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const refParam = params.get('ref');
-      setTimeout(() => {
-        setInviterEmail(refParam || 'rarblowup@gmail.com');
-        const savedEmail = localStorage.getItem('jildai_user_email');
-        if (savedEmail) {
-          setEmail(savedEmail);
-          setIsSubmitted(true);
-        }
-      }, 0);
+      setInviterEmail(refParam || 'rarblowup@gmail.com');
+      const savedEmail = localStorage.getItem('jildai_user_email');
+      if (savedEmail) {
+        setEmail(savedEmail);
+        setIsSubmitted(true);
+      }
     }
+  }, []);
+
+  useEffect(() => {
+    async function fetchCount() {
+      try {
+        const cached = localStorage.getItem('jildai_total_count');
+        if (cached) {
+          setTotalCount(parseInt(cached, 10));
+        }
+        const { count } = await supabase
+          .from('waitlist')
+          .select('*', { count: 'exact', head: true });
+        if (count !== null) {
+          setTotalCount(count);
+          localStorage.setItem('jildai_total_count', String(count));
+        }
+      } catch {
+        setTotalCount(prev => prev === null ? 0 : prev);
+      }
+    }
+    fetchCount();
   }, []);
 
   const handlePopupCopy = () => {
@@ -886,7 +906,11 @@ export default function LandingPage() {
                       <div className="w-10 h-10 rounded-full border-2 border-black bg-neutral-500 flex items-center justify-center text-xs shadow-md">A2</div>
                       <div className="w-10 h-10 rounded-full border-2 border-black bg-neutral-400 flex items-center justify-center text-xs shadow-md">X3</div>
                     </div>
-                    <span className="text-sm text-white/40"><span className="text-white font-bold">12,408</span> innovators joined already</span>
+                    {totalCount !== null && totalCount > 0 && (
+                      <span className="text-sm text-white/40">
+                        <span className="text-white font-bold">{totalCount.toLocaleString()}</span> innovators joined already
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-3 text-white/40 text-sm font-light">
                      <ShieldCheck className="w-4 h-4" />
