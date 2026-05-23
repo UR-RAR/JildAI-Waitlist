@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* Unified Sleek Single Custom Scrollbar - Extremely Dark, Clean & Only When Needed */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 23, 42, 0.6) #050505; /* Super dark slate-900 / black minimal style */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin: 0;
+  padding: 0;
+  /* Remove fixed height on html to prevent inner scroll containment conflicts */
+  height: auto !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: visible !important; /* Body flows naturally without custom scrolling */
+  overflow-x: hidden !important;
+  height: auto !important;
+  background-color: #050505;
+}
+
+/* Chrome, Safari and Edge Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px; /* Slightly thinner and less intrusive */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505; /* Matches the solid dark background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.82); /* Very dark obsidian slate thumb */
+  border-radius: 9999px;
+  border: 1px solid #050505;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.3); /* Subtle blue glow outline on active hover */
+}
+
+

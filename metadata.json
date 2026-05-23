@@ -1,0 +1,6 @@
+{
+  "name": "JildAI",
+  "description": "Premium AI Skincare tool with personalized routine recommendations and gamified progress tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
